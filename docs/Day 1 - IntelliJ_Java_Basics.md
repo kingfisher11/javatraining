@@ -4,7 +4,7 @@ Welcome to **Day 1** of the Java Beginner Training using **IntelliJ IDEA Communi
 
 By the end of this day, participants will be able to:
 
-- Install and configure **JDK 17**
+- Install and configure **JDK**
 - Install and open **IntelliJ IDEA Community**
 - Create and run a **Java console project**
 - Understand the basic parts of the IntelliJ interface
@@ -14,27 +14,23 @@ By the end of this day, participants will be able to:
 
 ---
 
-## 1. Installing Java Development Kit (JDK 17)
+## 1. Installing JDK
 
 Java requires a JDK to compile and run programs.
 
-### 1.1 Download JDK 17
+### 1.1 Download JDK
 
 1. Open a browser and go to:  
-   **https://adoptium.net**
+   **https://www.oracle.com/asean/java/technologies/downloads/**
 2. Choose:
-   - Version: **Temurin 17 (LTS)**
-   - Operating System: **Windows x64**
-   - Packaging: **Installer (.msi)**  
+   - Operating System: **Windows**
+   - Packaging: **x64 Installer**  
 3. Download the installer.
 
 ### 1.2 Install JDK 17
 
-1. Run the downloaded `.msi` file.
+1. Run the downloaded `.exe` file.
 2. Click **Next** through the steps.
-3. Keep default installation path (e.g. `C:\Program Files\Eclipse Adoptium\jdk-17.x.x`).
-4. Make sure **“Add to PATH”** is checked (if shown).
-5. Click **Install**, then **Finish**.
 
 ### 1.3 Verify JDK Installation
 
@@ -43,6 +39,22 @@ Java requires a JDK to compile and run programs.
 
    ```bash
    java -version
+
+### 1.4 Set Java Path
+1. Open System Properties -> Environment Variables
+2. On User variable section:
+   - Click New button
+   - Set variable name: JAVA_HOME
+   - Browser variable value: C:/Program Files/Java/jdk-25
+3. On System variable section:
+   - Click New button
+   - Set variable name: JAVA_HOME
+   - Browser variable value: C:/Program Files/Java/jdk-25
+4. Double click on path, click New
+5. Type
+```
+%JAVA_HOME%\bin
+```
 
 ## 2. Installing IntelliJ IDEA Community
 
