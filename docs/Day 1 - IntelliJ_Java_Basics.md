@@ -39,7 +39,7 @@ Java requires a JDK to compile and run programs.
 
    ```bash
    java -version
-
+   ```
 ### 1.4 Set Java Path
 1. Open System Properties -> Environment Variables
 2. On User variable section:
@@ -281,37 +281,134 @@ public class Main {
 }
 ```
 
-## 10. Basic Git & GitHub in IntelliJ
+## 10. Basic Git & GitHub in IntelliJ (Using IntelliJ Terminal)
 
-### 10.1 Enable Git
+Git is fully integrated inside IntelliJ IDEA. You can perform Git actions using either:
+- IntelliJ Git UI (Commit Window, Push Window), or  
+- **The built-in IntelliJ Terminal** (recommended for training)
 
-Go to:
+This section teaches both, but prioritizes **terminal-based workflow**.
+
+---
+
+### 10.1 Initialize Git Repository
+
+Inside IntelliJ:
+
+1. Open the **Terminal** at the bottom panel.
+2. Run:
+
+```bash
+git init
 ```
-VCS → Enable Version Control Integration → Git
+This creates a new .git folder inside the project, enabling Git tracking
+3. Check Git status:
+```
+git status
+```
+You should see all files listed as untracked.
+
+### 10.2 Add All Project Files to Git
+
+Run:
+```
+git add .
+```
+This stages all files for the first commit.
+
+Check status again:
+```
+git status
+```
+You should now see “changes to be committed”.
+
+### 10.3 First Commit (Initial Commit)
+
+1. Set branch master
+```
+git branch -M master
+```
+2. Run:
+```
+git commit -m "Day 1 - basic Java setup and menu program"
+```
+This creates your first snapshot of the project.
+
+### 10.4 Create a GitHub Repository (Online)
+
+1. Go to GitHub:
+2. Click New Repository
+3. Enter repository name (example):
+```
+JavaTraining
+```
+4. Leave all options unticked:
+   - Do NOT add README
+   - Do NOT add .gitignore
+   - Do NOT add a license
+5. Click Create Repository
+
+GitHub will show instructions such as:
+```
+…or push an existing repository from the command line
+```
+6. We will use the IntelliJ terminal for this.
+
+### 10.5 Add GitHub as Remote
+
+1. Copy your GitHub repo link, example:
+```
+https://github.com/yourusername/JavaTraining.git
+```
+2. Then in IntelliJ Terminal run:
+```
+git remote add origin https://github.com/yourusername/JavaTraining.git
+```
+3. Confirm remote added:
+```
+git remote -v
+```
+4. You should see:
+```
+origin   https://github.com/yourusername/JavaTraining.git (fetch)
+origin   https://github.com/yourusername/JavaTraining.git (push)
 ```
 
-### 10.2 First Commit
+### 10.6 Push Project to GitHub (from IntelliJ Terminal)
 
-- Press Ctrl + K
-- Select all files
-- Write message:
+Push the local commit to GitHub:
 ```
-Day 1 - basic Java setup and menu program
+git push -u origin master
 ```
-- Click Commit
+(If your branch name is master instead of main, use master.)
 
-### 10.3 Connect GitHub (Optional)
+   - If this is your first push from IntelliJ:
+   - IntelliJ will ask you to log in to GitHub
+   - Choose Log in with Browser
+   - Approve the authentication
+   - Return to IntelliJ: push will continue automatically
 
-Go to:
-- File → Settings → Version Control → GitHub
-- Login with GitHub
-
-### 10.4 Push Code
-
-Press:
+Once successful, the terminal will show:
 ```
-Ctrl + Shift + K
+Enumerating objects...
+To https://github.com/yourusername/JavaTraining.git
+ * [new branch] main -> main
 ```
+Your entire Java project is now published on GitHub.
+
+### 10.7 Verify on GitHub
+
+Go to your GitHub repo and refresh.
+
+You should now see:
+```
+src/
+docs/
+.idea/
+README.md
+.gitignore
+```
+If yes → Git integration is working perfectly.
 
 ## 11. Day 1 Deliverables
 
