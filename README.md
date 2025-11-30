@@ -1,2 +1,2 @@
-# Inventory Management System Training
-Full training materials will be added here during the workshop.
+# Java IntelliJ Training Repo
+See docs folder.

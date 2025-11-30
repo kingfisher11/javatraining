@@ -1,1 +1,1 @@
-// Code will be written during training
+public class InventoryManager {}

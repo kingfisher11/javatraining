@@ -1,0 +1,2 @@
+I001,Laptop,Electronics,3500.00,5
+I002,Mouse,Electronics,25.50,20
