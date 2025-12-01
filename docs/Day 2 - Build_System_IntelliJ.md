@@ -279,3 +279,13 @@ By end of Day 2, students understand:
 ✔ Cross-Origin Resource Sharing (CORS)
 ✔ Full-stack development basics
 ✔ How a browser communicates with a backend
+
+# 8. Homework
+
+Extend today’s project:
+
+- Add “Overall Result” (Pass / Fail)
+- Display timestamp in result
+- Save history of checks in a table (frontend)
+- Validate input: score must be 0–100
+- Add multiple grade ranges (A+, B+, etc.)
