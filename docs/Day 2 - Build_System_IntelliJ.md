@@ -236,13 +236,13 @@ The UI communicates with Java backend using fetch().
 
 By end of Day 2, students understand:
 
-✔ How Java can be used as backend
-✔ How to build and call a backend API
-✔ How to create a frontend UI using HTML/CSS/JS
-✔ How to use Node.js to host frontend
-✔ Cross-Origin Resource Sharing (CORS)
-✔ Full-stack development basics
-✔ How a browser communicates with a backend
+- How Java can be used as backend
+- How to build and call a backend API
+- How to create a frontend UI using HTML/CSS/JS
+- How to use Node.js to host frontend
+- Cross-Origin Resource Sharing (CORS)
+- Full-stack development basics
+- How a browser communicates with a backend
 
 # 8. Homework
 
