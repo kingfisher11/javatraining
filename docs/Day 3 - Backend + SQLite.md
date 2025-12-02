@@ -13,7 +13,7 @@ This guide explains step-by-step how to set up the database, create the necessar
 
 # 1. Overview of Today’s System
 
-By the end of Day 3, you will have:
+By the end of Day 3 - Part 1, you will have:
 
 ### ✔ SQLite database (`result.db`)  
 ### ✔ CRUD for Students  
