@@ -79,25 +79,11 @@ Open IntelliJ, create a new Java project.
 Inside backend/, create Main.java and paste this:
 
 ```
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
+// Import Library Section
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-
-        server.createContext("/grade", new GradeHandler());
-
-        server.setExecutor(null);
-        server.start();
-
-        System.out.println("Server running at http://localhost:8080");
+        // Main method
     }
 
     static class GradeHandler implements HttpHandler {
@@ -105,38 +91,16 @@ public class Main {
         public void handle(HttpExchange exchange) throws IOException {
 
             // CORS Headers
-            exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-            exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "*");
 
-            if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
-                exchange.sendResponseHeaders(204, -1);
-                return;
-            }
+            // Handle pre-flight OPTIONS request (sent automatically by browser)
+            // If browser sends OPTIONS, respond with empty 204 and return
 
-            if ("GET".equals(exchange.getRequestMethod())) {
 
-                String query = exchange.getRequestURI().getQuery(); // name=John&score=85
-                String[] parts = query.split("&");
+            // ==============================================================
+            // PROCESS GET REQUEST (Browser calls this when fetching grade)
+            // ==============================================================
 
-                String name = parts[0].split("=")[1];
-                int score = Integer.parseInt(parts[1].split("=")[1]);
 
-                String grade;
-                if (score >= 80) grade = "A";
-                else if (score >= 60) grade = "B";
-                else if (score >= 40) grade = "C";
-                else grade = "Fail";
-
-                String json = "{ \"name\": \"" + name + "\", \"grade\": \"" + grade + "\" }";
-
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
-                exchange.sendResponseHeaders(200, json.length());
-
-                OutputStream os = exchange.getResponseBody();
-                os.write(json.getBytes());
-                os.close();
-            }
         }
     }
 }
