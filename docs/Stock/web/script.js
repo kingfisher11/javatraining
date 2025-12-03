@@ -43,6 +43,7 @@ function loadItems() {
                         <td>${item.id}</td>
                         <td>${item.name}</td>
                         <td>${item.quantity}</td>
+                        <td><button onclick="deleteItem(${item.id})">Delete</button></td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
@@ -50,3 +51,17 @@ function loadItems() {
         })
         .catch(err => console.error(err));
 }
+
+function deleteItem(id) {
+        if (!confirm("Delete this item?")) return;
+
+        fetch(`${API}/items/delete?id=${id}`, {
+            method: "DELETE"
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("Item deleted");
+            loadItems();
+        })
+        .catch(err => alert("Error deleting item: " + err));
+    }

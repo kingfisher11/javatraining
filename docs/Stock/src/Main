@@ -20,6 +20,8 @@ public class Main {
 
         server.createContext("/items/add", new ItemAddHandler());
         server.createContext("/items/list", new ItemListHandler());
+        server.createContext("/items/delete", new ItemDeleteHandler());
+
 
         server.setExecutor(null);
         server.start();
@@ -33,9 +35,16 @@ public class Main {
     // =========================
     static void applyCORS(HttpExchange exchange) {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+        // ADD DELETE here!
+        exchange.getResponseHeaders().add(
+                "Access-Control-Allow-Methods",
+                "GET, POST, DELETE, OPTIONS"
+        );
+
         exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "*");
     }
+
 
 
     // =========================
@@ -121,4 +130,52 @@ public class Main {
             exchange.close();
         }
     }
+
+    // =========================
+// DELETE ITEM
+// =========================
+    static class ItemDeleteHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+
+            applyCORS(exchange);
+
+            // Handle OPTIONS (preflight)
+            if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+                exchange.sendResponseHeaders(204, -1);
+                return;
+            }
+
+            if (!exchange.getRequestMethod().equalsIgnoreCase("DELETE")) {
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }
+
+            String query = exchange.getRequestURI().getQuery();  // id=3
+
+            if (query == null || !query.contains("id=")) {
+                String err = "{ \"error\": \"missing id\" }";
+                exchange.sendResponseHeaders(400, err.length());
+                exchange.getResponseBody().write(err.getBytes());
+                return;
+            }
+
+            int id = Integer.parseInt(query.split("=")[1]);
+
+            try (Connection conn = DB.getConnection()) {
+                String sql = "DELETE FROM items WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            } catch (Exception e) { e.printStackTrace(); }
+
+            String response = "{ \"status\": \"deleted\" }";
+            byte[] out = response.getBytes();
+
+            exchange.sendResponseHeaders(200, out.length);
+            exchange.getResponseBody().write(out);
+            exchange.close();
+        }
+    }
+
 }
