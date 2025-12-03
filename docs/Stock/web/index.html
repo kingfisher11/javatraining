@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Stock Management</h1>
+
+<div class="form-box">
+    <h2>Add New Item</h2>
+
+    <label>Item Name</label>
+    <input type="text" id="itemName" placeholder="Enter item name">
+
+    <label>Quantity</label>
+    <input type="number" id="itemQty" placeholder="Enter quantity">
+
+    <button onclick="addItem()">Add Item</button>
+</div>
+
+<hr>
+
+<h2>Item List</h2>
+
+<table id="itemTable" border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Qty</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- rows added by JS -->
+    </tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
