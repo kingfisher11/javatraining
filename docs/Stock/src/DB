@@ -1,0 +1,40 @@
+import java.sql.*;
+
+public class DB {
+
+    // SQLite DB file
+    private static final String URL = "jdbc:sqlite:stock.db";
+    // will run once when class loads
+    static {
+        System.out.print("DB loaded");
+        System.out.println("DB PATH = " + URL);
+        try {
+            Class.forName("org.sqlite.JDBC"); // load driver
+            initDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get connection
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL);
+    }
+
+    // create table
+    private static void initDatabase() throws SQLException {
+        try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
+
+            String createItemsTable = """
+                CREATE TABLE IF NOT EXISTS items(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    quantity INTEGER NOT NULL
+                );
+                """;
+
+            stmt.executeUpdate(createItemsTable);
+            System.out.println("Table items");
+        }
+    }
+}
