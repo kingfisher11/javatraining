@@ -362,3 +362,11 @@ Next part, we will build the frontend web app:
 ✔ Display GPA
 ✔ Buttons for delete/edit
 ✔ Fetch requests to call the API
+
+# 🟦 Download
+
+Download the official json.jar:
+
+📥 Direct download (safe & official):
+https://repo1.maven.org/maven2/org/json/json/20231013/json-20231013.jar
+
