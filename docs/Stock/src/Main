@@ -13,6 +13,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        // Load DB
+        DB.getConnection();
+
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 
         server.createContext("/items/add", new ItemAddHandler());
@@ -24,10 +27,31 @@ public class Main {
         System.out.println("SERVER RUNNING at http://localhost:8080");
     }
 
-    // ========== ADD ITEM ==========
+
+    // =========================
+    // COMMON CORS METHOD
+    // =========================
+    static void applyCORS(HttpExchange exchange) {
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "*");
+    }
+
+
+    // =========================
+    // ADD ITEM
+    // =========================
     static class ItemAddHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
+
+            applyCORS(exchange);
+
+            // Handle preflight OPTIONS
+            if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+                exchange.sendResponseHeaders(204, -1);
+                return;
+            }
 
             if (!exchange.getRequestMethod().equalsIgnoreCase("POST")) {
                 exchange.sendResponseHeaders(405, -1);
@@ -49,21 +73,34 @@ public class Main {
             } catch (Exception e) { e.printStackTrace(); }
 
             String response = "{ \"status\": \"added\" }";
-            exchange.sendResponseHeaders(200, response.length());
-            exchange.getResponseBody().write(response.getBytes());
+            byte[] bytes = response.getBytes();
+
+            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
         }
     }
 
-    // ========== LIST ITEMS ==========
+
+    // =========================
+    // LIST ITEMS
+    // =========================
     static class ItemListHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
 
+            applyCORS(exchange);
+
+            // OPTIONS preflight
+            if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+                exchange.sendResponseHeaders(204, -1);
+                return;
+            }
+
             JSONArray arr = new JSONArray();
 
             try (Connection conn = DB.getConnection()) {
-                ResultSet rs = conn.createStatement()
-                        .executeQuery("SELECT * FROM items");
+                ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM items");
 
                 while (rs.next()) {
                     JSONObject obj = new JSONObject();
@@ -72,12 +109,16 @@ public class Main {
                     obj.put("quantity", rs.getInt("quantity"));
                     arr.put(obj);
                 }
+
             } catch (Exception e) { e.printStackTrace(); }
 
             String response = arr.toString();
+            byte[] bytes = response.getBytes();
 
-            exchange.sendResponseHeaders(200, response.length());
-            exchange.getResponseBody().write(response.getBytes());
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
         }
     }
 }
